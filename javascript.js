@@ -165,6 +165,15 @@ function Tree(array) {
     arr(root)
   }
 
+  function height(node) {
+    if (node === null) return 0
+
+    const leftHeight = this.height(node.left);
+    const rightHeight = this.height(node.right);
+
+    return Math.max(leftHeight,rightHeight)+1
+  }
+
   return{
     root: buildTree(newArray),
     insert,
@@ -173,7 +182,8 @@ function Tree(array) {
     levelOrder,
     inOrder,
     preOrder,
-    postOrder
+    postOrder,
+    height
   }
 }
 
@@ -195,7 +205,8 @@ const tree = Tree(arr);
 prettyPrint(tree.root);
 // tree.insert(68)
 // tree.deleteItem(4)
-// console.log(tree.find(9))
+const node = tree.find(8)
+console.log(tree.height(node))
 // prettyPrint(tree.root);
 // tree.levelOrder(element => console.log(element.data))
 // tree.inOrder(element => console.log(element.data))
