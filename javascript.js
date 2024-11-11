@@ -100,6 +100,30 @@ function Tree(array) {
     return find(value, root.left)
   }
 
+  function levelOrder(arr = [],root = this.root) {
+    if (typeof arr !== 'function') {
+      throw new Error('Use a callback function')
+    }
+    if (root === null) return
+
+    const queue = []
+    queue.push(root)
+
+    while (queue.length > 0){
+      const level = queue[0]
+      arr(level, level.data)
+      if (level.left !== null){
+        queue.push(level.left)
+      }
+      if (level.right !== null){
+        queue.push(level.right)
+      }
+      queue.shift()
+    }
+
+    return queue
+  }
+
   const inorder = (root) => {
       if (root !== null) {
         inorder(root.left);
@@ -112,7 +136,8 @@ function Tree(array) {
     root: buildTree(newArray),
     insert,
     deleteItem,
-    find
+    find,
+    levelOrder
   }
 }
 
@@ -136,3 +161,4 @@ prettyPrint(tree.root);
 // tree.deleteItem(4)
 // console.log(tree.find(9))
 prettyPrint(tree.root);
+tree.levelOrder(element => console.log(element.data))
