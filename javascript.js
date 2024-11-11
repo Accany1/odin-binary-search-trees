@@ -165,6 +165,22 @@ function Tree(array) {
     arr(root)
   }
 
+  function depth(node, root = this.root) {
+    if (root === null) {
+      return 0
+    }
+
+    if (root.data === node.data) {
+      return 0
+    }
+    if (root.data < node.data) {
+      return depth(node, root.right) + 1
+    }
+    if (root.data > node.data) {
+      return depth(node, root.left) + 1
+    } 
+  }
+
   function height(node) {
     if (node === null) return 0
 
@@ -173,6 +189,8 @@ function Tree(array) {
 
     return Math.max(leftHeight,rightHeight)+1
   }
+
+  
 
   return{
     root: buildTree(newArray),
@@ -183,7 +201,8 @@ function Tree(array) {
     inOrder,
     preOrder,
     postOrder,
-    height
+    height,
+    depth
   }
 }
 
@@ -205,8 +224,9 @@ const tree = Tree(arr);
 prettyPrint(tree.root);
 // tree.insert(68)
 // tree.deleteItem(4)
-const node = tree.find(8)
-console.log(tree.height(node))
+const node = tree.find(1)
+// console.log(tree.height(node))
+console.log(tree.depth(node))
 // prettyPrint(tree.root);
 // tree.levelOrder(element => console.log(element.data))
 // tree.inOrder(element => console.log(element.data))
