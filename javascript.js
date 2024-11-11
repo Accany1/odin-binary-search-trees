@@ -19,11 +19,11 @@ function Tree(array) {
     return
   }
 
-  function buildTree(array, start = 0, end= array.length - 1) {
+  function buildTree(array, start = 0, end = array.length - 1) {
     if (start > end) return null
   
     //Find mid 
-    let mid = start + Math.floor((end-start)/2)
+    let mid = start + Math.floor((end - start) / 2)
   
     let root = Node(array[mid])
   
@@ -55,7 +55,6 @@ function Tree(array) {
   }
 
   function getSuccessor(root) {
-    console.log(root)
     root = root.right
     while (root !== null && root.left !== null) {
       root = root.left
@@ -104,6 +103,7 @@ function Tree(array) {
     if (typeof arr !== 'function') {
       throw new Error('Use a callback function')
     }
+
     if (root === null) return
 
     const queue = []
@@ -120,16 +120,49 @@ function Tree(array) {
       }
       queue.shift()
     }
-
-    return queue
   }
 
-  const inorder = (root) => {
-      if (root !== null) {
-        inorder(root.left);
-        console.log(root.key + " ");
-        inorder(root.right);
+  function inOrder(arr = [], root = this.root) {
+    if (typeof arr !== 'function') {
+      throw new Error('Use a callback function')
     }
+
+    if (root === null) return
+
+    inOrder(arr,root.left)
+
+    arr(root)
+    
+    inOrder(arr,root.right)
+  }
+
+  function preOrder(arr = [], root = this.root) {
+    if (typeof arr !== 'function') {
+      throw new Error('Use a callback function')
+    }
+
+    if (root === null) return
+
+
+    arr(root)
+
+    preOrder(arr,root.left)
+    
+    preOrder(arr,root.right)
+  }
+
+  function postOrder(arr = [], root = this.root) {
+    if (typeof arr !== 'function') {
+      throw new Error('Use a callback function')
+    }
+
+    if (root === null) return
+
+    postOrder(arr,root.left)
+    
+    postOrder(arr,root.right)
+
+    arr(root)
   }
 
   return{
@@ -137,7 +170,10 @@ function Tree(array) {
     insert,
     deleteItem,
     find,
-    levelOrder
+    levelOrder,
+    inOrder,
+    preOrder,
+    postOrder
   }
 }
 
@@ -160,5 +196,8 @@ prettyPrint(tree.root);
 // tree.insert(68)
 // tree.deleteItem(4)
 // console.log(tree.find(9))
-prettyPrint(tree.root);
-tree.levelOrder(element => console.log(element.data))
+// prettyPrint(tree.root);
+// tree.levelOrder(element => console.log(element.data))
+// tree.inOrder(element => console.log(element.data))
+// tree.preOrder(element => console.log(element.data))
+// tree.postOrder(element => console.log(element.data))
