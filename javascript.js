@@ -51,7 +51,41 @@ function Tree(array) {
         root.right = this.insert(value, root.right);
     }
 
-    return root;
+    return root
+  }
+
+  function getSuccessor(root) {
+    console.log(root)
+    root = root.right
+    while (root !== null && root.left !== null) {
+      root = root.left
+    }
+    return root
+  }
+
+  function deleteItem(value, root = this.root) {
+      if (root === null) {
+        return root
+      }
+
+      if (root.data > value) {
+        root.left = deleteItem(value, root.left)
+      } else if (root.data < value) {
+        root.right = deleteItem(value, root.right)
+      } else {
+        if (root.left === null) {
+          return root.right
+        }
+
+        if (root.right === null) {
+          return root.left
+        }
+        
+        let succ = getSuccessor(root)
+        root.data = succ.data
+        root.right = deleteItem( succ.data, root.right)
+      }
+      return root
   }
 
   const inorder = (root) => {
@@ -64,7 +98,8 @@ function Tree(array) {
 
   return{
     root: buildTree(newArray),
-    insert
+    insert,
+    deleteItem
   }
 }
 
@@ -84,5 +119,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = Tree(arr);
 prettyPrint(tree.root);
-tree.insert(500)
+// tree.insert(68)
+tree.deleteItem(4)
 prettyPrint(tree.root);
