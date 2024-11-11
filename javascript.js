@@ -5,3 +5,10 @@ function Node(input) {
         right:null
     }
 }
+
+function Tree(root) {
+    if (root === null) return
+    console.log(root.data)
+    Tree(root.left)
+    Tree(root.right)
+}
