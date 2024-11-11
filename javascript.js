@@ -6,20 +6,7 @@ function Node(data, left = null, right = null) {
     }
 }
 
-function buildTree(array, start = 0, end= array.length - 1) {
-  if (start > end) return null
 
-  //Find mid 
-  let mid = start + Math.floor((end-start)/2)
-
-  let root = Node(array[mid])
-
-  root.left = buildTree(array, start, mid - 1)
-
-  root.right = buildTree(array, mid +1, end)
-
-  return root
-}
 
 function Tree(array) {
   let newArray
@@ -32,7 +19,53 @@ function Tree(array) {
     return
   }
 
-  return buildTree(newArray)
+  function buildTree(array, start = 0, end= array.length - 1) {
+    if (start > end) return null
+  
+    //Find mid 
+    let mid = start + Math.floor((end-start)/2)
+  
+    let root = Node(array[mid])
+  
+    root.left = buildTree(array, start, mid - 1)
+  
+    root.right = buildTree(array, mid +1, end)
+  
+    return root
+  }
+
+  function insert(value, root = this.root) {
+    if (root === null){
+      root = Node(value)
+      return root
+    }
+      
+    // Duplicates not allowed    
+    if (root.data === value){
+        return root
+    }
+        
+    if (value < root.data){
+        root.left = this.insert(value, root.left);
+    } else if (value > root.data) {
+        root.right = this.insert(value, root.right);
+    }
+
+    return root;
+  }
+
+  const inorder = (root) => {
+      if (root !== null) {
+        inorder(root.left);
+        console.log(root.key + " ");
+        inorder(root.right);
+    }
+  }
+
+  return{
+    root: buildTree(newArray),
+    insert
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -49,5 +82,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   };
  
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const root = Tree(arr);
-prettyPrint(root);
+const tree = Tree(arr);
+prettyPrint(tree.root);
+tree.insert(500)
+prettyPrint(tree.root);
