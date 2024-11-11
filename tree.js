@@ -8,7 +8,7 @@ function Node(data, left = null, right = null) {
 
 
 
-function Tree(array) {
+export function Tree(array) {
   let newArray
 
   //sorted and remove dupes
@@ -231,7 +231,7 @@ function Tree(array) {
   }
 }
 
-const prettyPrint = (node, prefix = "", isLeft = true) => {
+export const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
       return;
     }
@@ -244,23 +244,3 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
   };
  
-const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const tree = Tree(arr);
-prettyPrint(tree.root);
-// console.log(tree.root)
-tree.insert(68)
-tree.insert(69)
-tree.insert(70)
-tree.insert(71)
-// tree.deleteItem(4)
-// const node = tree.find(1)
-// console.log(tree.height(node))
-// console.log(tree.depth(node))
-// prettyPrint(tree.root)
-// tree.levelOrder(element => console.log(element.data))
-// tree.inOrder(element => console.log(element.data))
-// tree.preOrder(element => console.log(element.data))
-// tree.postOrder(element => console.log(element.data))
-// console.log(tree.isBalanced())
-tree.rebalance()
-prettyPrint(tree.root);
