@@ -19,6 +19,8 @@ function Tree(array) {
     return
   }
 
+  let root = buildTree(newArray)
+
   function buildTree(array, start = 0, end = array.length - 1) {
     if (start > end) return null
   
@@ -143,7 +145,6 @@ function Tree(array) {
 
     if (root === null) return
 
-
     arr(root)
 
     preOrder(arr,root.left)
@@ -184,16 +185,38 @@ function Tree(array) {
   function height(node) {
     if (node === null) return 0
 
-    const leftHeight = this.height(node.left);
-    const rightHeight = this.height(node.right);
+    const leftHeight = height(node.left)
+    const rightHeight = height(node.right)
 
     return Math.max(leftHeight,rightHeight)+1
+  }
+
+  function isBalanced(root = this.root){
+    if (!root) return true
+    const leftHeight = height(root.left)
+    const rightHeight = height(root.right)
+
+    if (
+      Math.abs(leftHeight-rightHeight) <= 1 &&
+      isBalanced(root.left) &&
+      isBalanced(root.right)
+    ) {
+      return true
+    } else {
+      return false
+    }
+  }
+  
+  function rebalance(root = this.root) {
+    const queue = []
+    inOrder(element => queue.push(element.data), root)
+    this.root = buildTree(queue)
   }
 
   
 
   return{
-    root: buildTree(newArray),
+    root,
     insert,
     deleteItem,
     find,
@@ -202,7 +225,9 @@ function Tree(array) {
     preOrder,
     postOrder,
     height,
-    depth
+    depth,
+    isBalanced,
+    rebalance
   }
 }
 
@@ -222,13 +247,20 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = Tree(arr);
 prettyPrint(tree.root);
-// tree.insert(68)
+// console.log(tree.root)
+tree.insert(68)
+tree.insert(69)
+tree.insert(70)
+tree.insert(71)
 // tree.deleteItem(4)
-const node = tree.find(1)
+// const node = tree.find(1)
 // console.log(tree.height(node))
-console.log(tree.depth(node))
-// prettyPrint(tree.root);
+// console.log(tree.depth(node))
+// prettyPrint(tree.root)
 // tree.levelOrder(element => console.log(element.data))
 // tree.inOrder(element => console.log(element.data))
 // tree.preOrder(element => console.log(element.data))
 // tree.postOrder(element => console.log(element.data))
+// console.log(tree.isBalanced())
+tree.rebalance()
+prettyPrint(tree.root);
