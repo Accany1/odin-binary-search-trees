@@ -1,35 +1,38 @@
-function Node(input) {
+function Node(data, left = null, right = null) {
     return {
-        data:input,
-        left:null,
-        right:null
+        data:data,
+        left:left,
+        right:right
     }
 }
 
-function Tree(root) {
-    if (root === null) return
-    console.log(root.data)
-    Tree(root.left)
-    Tree(root.right)
+function buildTree(array, start = 0, end= array.length - 1) {
+  if (start > end) return null
+
+  //Find mid 
+  let mid = start + Math.floor((end-start)/2)
+
+  let root = Node(array[mid])
+
+  root.left = buildTree(array, start, mid - 1)
+
+  root.right = buildTree(array, mid +1, end)
+
+  return root
 }
 
-function buildTreeRecur(array, start, end) {
-    if (start > end) return null
+function Tree(array) {
+  let newArray
 
-    //Find mid 
-    let mid = start + Math.floor((end-start)/2)
+  //sorted and remove dupes
+  if (Array.isArray(array)) {
+    newArray = [...new Set(array.sort((a, b) => a - b))]
+  } else {
+    console.log("Use an array")
+    return
+  }
 
-    let root = Node(array[mid])
-
-    root.left = buildTreeRecur(array, start, mid - 1)
-
-    root.right = buildTreeRecur(array, mid +1, end)
-
-    return root
-}
-
-function buildTree(array) {
-  return buildTreeRecur(array, 0, array.length - 1)
+  return buildTree(newArray)
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -45,6 +48,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
   };
  
-const arr = [1, 2, 3, 4];
-const root = buildTree(arr);
+const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const root = Tree(arr);
 prettyPrint(root);
