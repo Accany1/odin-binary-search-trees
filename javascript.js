@@ -88,6 +88,18 @@ function Tree(array) {
       return root
   }
 
+  function find(value, root = this.root) {
+    if (root === null || root.data === value) {
+      return root
+    }
+
+    if (root.data < value) {
+      return find(value, root.right)
+    }
+
+    return find(value, root.left)
+  }
+
   const inorder = (root) => {
       if (root !== null) {
         inorder(root.left);
@@ -99,7 +111,8 @@ function Tree(array) {
   return{
     root: buildTree(newArray),
     insert,
-    deleteItem
+    deleteItem,
+    find
   }
 }
 
@@ -120,5 +133,6 @@ const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = Tree(arr);
 prettyPrint(tree.root);
 // tree.insert(68)
-tree.deleteItem(4)
+// tree.deleteItem(4)
+// console.log(tree.find(9))
 prettyPrint(tree.root);
